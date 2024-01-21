@@ -1,0 +1,25 @@
+{
+  "name": "sase_frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^1.5.1",
+    "next": "13.5.4",
+    "next-auth": "^4.23.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "tailwindcss": "^3"
+  }
+}
