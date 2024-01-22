@@ -2,7 +2,8 @@ import React from 'react';
 import Layout from '@/components/Layout';
 import { Grid, Card, CardContent, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
-
+import Timer from '@/components/Timer';
+import TopicCard from '@/components/TopicCard';
 
 
 const randomTopics = [
@@ -65,35 +66,11 @@ export default function HomePage() {
     const [userTopic, setUserTopic] = useState('');
     return <div>
         <Layout>
-            <h1>Choose a Topic to record yoursef.</h1>
+            <h1>Choose a Topic.</h1>
             <div>
                 <Grid container spacing={2}>
                     {randomTopics.map((topic, index) => (
-
-                        <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-                            <Card
-                                onClick={() => handleSpecificTopicSubmit(topic.id)}
-                                sx={{
-                                    ':hover': {
-                                        boxShadow: 20, // theme.shadows[20]
-                                        cursor: 'pointer',
-                                    },
-                                    ...(selectedTopic === topic.id ? {
-                                        border: '2px solid #3f51b5',
-                                    } : {}),
-
-                                }}
-                            >
-                                <CardContent>
-                                    <Typography variant="h5" component="div">
-                                        {topic.name}
-                                    </Typography>
-                                    <Typography color="textSecondary">
-                                        {topic.description}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
+                        <TopicCard topic={topic} selectedTopic={selectedTopic} index={index}  handleSpecificTopicSubmit={handleSpecificTopicSubmit}/>
                     ))}
 
 
@@ -130,6 +107,9 @@ export default function HomePage() {
                 </Grid>
                 <Button>Randomize</Button>
 
+                <Grid container spacing={2}>
+                    <Timer />
+                </Grid>
 
 
             </div>

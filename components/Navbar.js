@@ -13,6 +13,10 @@ const Navbar = () => {
           Presentation Trainner
         </Link>
         <div className="right menu">
+          
+        <Link href="/presentations" className='item' >
+            Presentations
+          </Link>
           <Link href="/choose-topic" className='item' >
             Record a Session
           </Link>
