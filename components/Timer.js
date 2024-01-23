@@ -7,17 +7,23 @@ export default function Timer() {
     const [isPaused, setIsPaused] = useState(false);
     const [isFinished, setIsFinished] = useState(false); // TODO: Implement this [1
     const [timeRemaining, setTimeRemaining] = useState(timerSelected);
+    const [youtubeLink, setYoutubeLink] = useState('');
 
     useEffect(() => {
         let interval = null;
         if (isTimer && !isPaused) {
             interval = setInterval(() => {
-                setTimeRemaining(timeRemaining => timeRemaining - 1);
-                if (timeRemaining <= 0) {
-                    clearInterval(interval);
-                    setIsFinished(true);
-                    setIsTimer(false);
-                }
+                setTimeRemaining(prevTimeRemaining => {
+                    console.log("prevTimeRemaining", prevTimeRemaining)
+                    if (prevTimeRemaining <= 1) {
+                        setIsFinished(true);
+                        setIsTimer(false);
+                        clearInterval(interval);
+                        return 0;
+                    } else {
+                        return prevTimeRemaining - 1;
+                    }
+                });
             }, 1000);
         } else {
             clearInterval(interval);
@@ -26,7 +32,9 @@ export default function Timer() {
     }, [isTimer, isPaused, timerSelected]);
 
     const handleTimeChange = (event) => {
+        console.log("handleTimeChange", event.target.value)
         setTimerSelected(event.target.value * 60); // Convert minutes to seconds
+        setTimeRemaining(event.target.value * 60);
     };
 
     return (
@@ -43,7 +51,7 @@ export default function Timer() {
                     <MenuItem value={20}>20 minutes</MenuItem>
                     <MenuItem value={25}>25 minutes</MenuItem>
                     <MenuItem value={30}>30 minutes</MenuItem>
-                    <MenuItem value={1}>1 minutes</MenuItem>
+                    <MenuItem value={.2}>1 minutes</MenuItem>
                     {/* Add more options as needed */}
                 </Select>
             </Grid>
@@ -56,7 +64,8 @@ export default function Timer() {
                         </Button>
                         <Button onClick={() => {
                             setIsFinished(true);
-                            setIsTimer(false)}}>Finish</Button>
+                            setIsTimer(false)
+                        }}>Finish</Button>
                         <Button onClick={() => setTimeRemaining(timerSelected)}>Reset</Button>
                     </div>
                 ) : (
@@ -69,6 +78,12 @@ export default function Timer() {
                         <Typography variant='h5'>
                             Youtube Submisssion Link (You can set it as unlisted link)
                         </Typography>
+
+                        <TextField
+                            label="YouTube Link"
+                            variant="outlined"
+                            onChange={(event) => setYoutubeLink(event.target.value)}
+                        />
                         <Button onClick={() => setIsFinished(false)}>Reset</Button>
                     </div>
                 ) : (<></>
