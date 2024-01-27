@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CardContent, Grid, Typography, Button, Select, MenuItem } from '@mui/material';
+import { CardContent, Grid, Typography, Button, Select, MenuItem, TextField } from '@mui/material';
 
 export default function Timer() {
     const [timerSelected, setTimerSelected] = useState(25 * 60); // 25 minutes in seconds
@@ -36,6 +36,8 @@ export default function Timer() {
         setTimerSelected(event.target.value * 60); // Convert minutes to seconds
         setTimeRemaining(event.target.value * 60);
     };
+
+    
 
     return (
         <CardContent>
@@ -84,7 +86,7 @@ export default function Timer() {
                             variant="outlined"
                             onChange={(event) => setYoutubeLink(event.target.value)}
                         />
-                        <Button onClick={() => setIsFinished(false)}>Reset</Button>
+                        <Button onClick={() => setIsFinished(false)}>Submit</Button>
                     </div>
                 ) : (<></>
                 )
