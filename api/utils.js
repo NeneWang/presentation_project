@@ -4,6 +4,26 @@ import { MEME_API, BACKEND_API } from './constants';
 import { func } from 'prop-types';
 
 
+/**
+ * New Recording Data
+ * @param {data} newRecordingData 
+ * {
+    "preparation_time": 50,
+    "user_id": '6877986f-ce17-452a-900f-b94fa66064b8',
+    "start_ch_time": "2024-01-27T20:50:00.406577",
+    "end_res_time": "2024-01-27T20:50:00.406577",
+    "topic_id": 0
+    }
+ * @returns 
+ */
+export async function postRecording(newRecordingData){
+    const response = await axios.post(BACKEND_API + `api_presentation/record`, newRecordingData);
+    
+    const newRecording = response.data;
+    return newRecording;
+}
+
+
 export async function giveRandomMeme() {
     // https://meme-api.com/gimme
     // console.log("attempted to fetch from ", MEME_API)
