@@ -3,7 +3,10 @@ import { CardContent, Grid, Typography, Button, Select, MenuItem, TextField } fr
 
 import { postRecording } from '@/utils/utils';
 
-export default function Timer() {
+export default function Timer({
+    topic_id,
+    user_id = ""
+}) {
     const [timerSelected, setTimerSelected] = useState(25 * 60); // 25 minutes in seconds
     const [isTimer, setIsTimer] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -39,6 +42,16 @@ export default function Timer() {
         setTimeRemaining(event.target.value * 60);
     };
 
+    const handleSubmit = async () => {
+        setIsFinished(false)
+        console.log("youtubeLink", youtubeLink)
+        postRecording(
+            {
+
+            }
+        )
+        
+    }
 
 
     return (
@@ -88,7 +101,7 @@ export default function Timer() {
                             variant="outlined"
                             onChange={(event) => setYoutubeLink(event.target.value)}
                         />
-                        <Button onClick={() => setIsFinished(false)}>Submit</Button>
+                        <Button onClick={() => handleSubmit()}>Submit</Button>
                     </div>
                 ) : (<></>
                 )

@@ -3,7 +3,8 @@ import axios from 'axios';
 import { MEME_API, BACKEND_API } from './constants';
 import { func } from 'prop-types';
 
-
+SAMPLE_USER_GUID = 'bbf8e248-ca89-41c4-b55c-e4e20977a6e0'
+SAMPLE_TOPIC_ID = 'a72dd8bb-0ea0-48d7-9f55-df30b236ecdf'
 /**
  * New Recording Data
  * @param {data} newRecordingData 
