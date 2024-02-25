@@ -85,4 +85,61 @@ export async function getForum(id) {
     return forum;
 }
 
+export async function getProfile(id) {
+    const response = await axios.get(BACKEND_API + `api_presentation/profile/${id}`);
+    const profile = response.data;
+    console.log("Profile", profile)
+    return profile;
+}
+
+export async function getUserProfile() {
+    /**
+     * {
+        "profile": [
+            {
+            "id": "bbf8e248-ca89-41c4-b55c-e4e20977a6e0",
+            "name": "Demo1 User",
+            "password": "$2b$12$AHA0MLcZhYuoVAi7CbwX8u6Gq4TJJC4sndfizONSZItjOSqfvY7kq",
+            "email": "wangnelson4@gmail.com",
+            "created_time": "2023-09-17T13:34:01.829175",
+            "updated_time": "2024-02-24T02:00:47.454849",
+            "default_competition_id": "7bc69deb-b1b4-4d45-aab1-43ce2d9caf8a"
+            }
+        ],
+        "records": [
+            {
+                "id": "c4e1a770-395b-4aa7-bd07-00f884809b9e",
+                "user_id": "bbf8e248-ca89-41c4-b55c-e4e20977a6e0",
+                "end_res_time": "2024-01-17T20:54:50.621795",
+                "created_time": "2024-01-18T01:54:49.338612",
+                "preparation_time": 10,
+                "start_ch_time": "2024-01-17T20:54:50.621795",
+                "topic_id": "b3cb5d4a-a89f-4700-a881-e87055d80e66",
+                "updated_time": "2024-01-18T01:54:49.338612",
+                "topic": {
+                    "level": 1,
+                    "name": "The Future of Artificial Intelligence",
+                    "description": "Discuss the current state of AI, its applications, and what the future might hold.",
+                    "base_project_url": null,
+                    "categories": [
+                    "fe7ae450-50cb-4ee5-9fb7-5a84e3ae0e9d"
+                    ],
+                    "downvotes": 0,
+                    "updated_time": "2024-01-18T01:54:47.395112",
+                    "image": "",
+                    "id": "b3cb5d4a-a89f-4700-a881-e87055d80e66",
+                    "is_project_based": false,
+                    "end_sample_url": null,
+                    "upvotes": 0,
+                    "created_time": "2024-01-18T01:54:47.395112"
+                }
+            }
+        ]
+        }
+     */
+    // Retrieve the userid in the Session
+    return getProfile(SAMPLE_USER_GUID);
+
+}
+
 
