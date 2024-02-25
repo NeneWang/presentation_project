@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CardContent, Grid, Typography, Button, Select, MenuItem, TextField } from '@mui/material';
 
-import { postRecording } from '@/utils/utils';
+import { postRecording } from '@/api/utils';
 
 export default function Timer({
     topic_id,
@@ -19,7 +19,6 @@ export default function Timer({
         if (isTimer && !isPaused) {
             interval = setInterval(() => {
                 setTimeRemaining(prevTimeRemaining => {
-                    console.log("prevTimeRemaining", prevTimeRemaining)
                     if (prevTimeRemaining <= 1) {
                         setIsFinished(true);
                         setIsTimer(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/Layout';
-import { Grid, Card, CardContent, Typography, TextField, Button } from '@mui/material';
+import { Grid, Card, CardContent, Typography, TextField, Button, Divider } from '@mui/material';
 import { useState } from 'react';
 import Timer from '@/components/Timer';
 import TopicCard from '@/components/TopicCard';
@@ -44,12 +44,20 @@ const randomTopics = [
         "updated_time": "2024-01-18T01:54:47.569506"
     }
 ]
-
+const { randomizeOptions } = require('@/api/utils');
 
 
 export default function HomePage() {
 
-    const [selectedTopic, setSelectedTopic] = useState(null); // [topicId, setTopicId
+    const [selectedTopic, setSelectedTopic] = useState(null);
+    const [promptTopics, setPromptTopics] = useState(randomTopics);
+
+    const [topicTitle, setTopicTitle] = useState('');
+    const [topicDescription, setTopicDescription] = useState('');
+    const [submissionLink, setSubmissionLink] = useState('');
+
+    const [userTopic, setUserTopic] = useState('');
+    const [isTopicStarted, setIsTopicStarted] = useState(false);
 
     const handleCustomTopicSubmit = () => {
         // Add your code to handle the submitted topic here
@@ -62,57 +70,121 @@ export default function HomePage() {
         setSelectedTopic(specificTopic);
     }
 
+    const selectSampleTopic = (topic) => {
+        setSelectedTopic(topic.id);
+        setTopicTitle(topic.name);
+        setTopicDescription(topic.description);
+    }
 
-    const [userTopic, setUserTopic] = useState('');
+
+    const handleCustomUserTopic = (topicTitle) => {
+        setUserTopic(topicTitle);
+        setTopicTitle(topicTitle);
+    }
+
+    const researchSession = <div>
+
+
+
+        <Grid container spacing={2}>
+            <Timer />
+        </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <TextField
+                    label="Topic Title"
+                    variant="outlined"
+                    fullWidth
+                    value={topicTitle}
+                    onChange={(event) => setTopicTitle(event.target.value)} />
+            </Grid>
+
+            <Grid item xs={12}>
+                <TextField
+                    label="Topic Description"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    fullWidth
+                    value={topicDescription}
+                    onChange={(event) => setTopicDescription(event.target.value)} />
+            </Grid>
+            <Divider/>
+            <Grid item xs={12}>
+                <TextField
+                    label="Submission Link (Youtube)"
+                    variant="outlined"
+                    multiline
+                    rows={1}
+                    fullWidth
+                    value={submissionLink}
+                    onChange={(event) => setSubmissionLink(event.target.value)} />
+            </Grid>
+        </Grid>
+
+
+    </div>;
+    const chooseTopicScreen = <div>
+        <h1>Choose a Topic.</h1>
+        <div>
+            <Grid container spacing={2}>
+                {promptTopics.map((topic, index) => (
+                    <TopicCard topic={topic} selectedTopic={selectedTopic} index={index} handleSpecificTopicSubmit={() => { selectSampleTopic(topic); }} />
+                ))}
+
+
+                <Grid item xs={12} sm={6} md={6} lg={6} key={'own'}>
+                    <Card
+                        sx={{
+                            ...(selectedTopic === 'own' ? {
+                                border: '2px solid #3f51b5',
+                            } : {}),
+                        }}
+                        onClick={handleCustomTopicSubmit}
+
+                    >
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                Write down your own topic
+                            </Typography>
+                            <br /><Grid item xs={10}>
+                                <TextField
+                                    label="Your Topic"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={userTopic}
+                                    onChange={(e) => {
+
+                                        handleCustomUserTopic(e.target.value);
+                                    }} />
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+            </Grid>
+
+
+        </div>
+
+
+        <Button onClick={async () => {
+            const res = await randomizeOptions();
+            setPromptTopics(res);
+        }}>Randomize</Button>
+
+
+
+        <Button onClick={async () => {
+            setIsTopicStarted(true);
+        }}>Start</Button>
+    </div>;
     return <div>
         <Layout>
-            <h1>Choose a Topic.</h1>
-            <div>
-                <Grid container spacing={2}>
-                    {randomTopics.map((topic, index) => (
-                        <TopicCard topic={topic} selectedTopic={selectedTopic} index={index}  handleSpecificTopicSubmit={handleSpecificTopicSubmit}/>
-                    ))}
 
+            {!isTopicStarted && chooseTopicScreen}
 
-                    <Grid item xs={12} sm={6} md={6} lg={6} key={'own'}>
-                        <Card
-                            sx={{
-                                ...(selectedTopic === 'own' ? {
-                                    border: '2px solid #3f51b5',
-                                } : {}),
-
-                            }}
-                            onClick={handleCustomTopicSubmit}
-
-                        >
-                            <CardContent>
-                                <Typography variant="h5" component="div">
-                                    Write down your own topic
-                                </Typography>
-                                <br /><Grid item xs={10}>
-                                    <TextField
-                                        label="Your Topic"
-                                        variant="outlined"
-                                        fullWidth
-                                        value={userTopic}
-                                        onChange={(e) => {
-                                            setUserTopic(e.target.value)
-                                        }}
-                                    />
-                                </Grid>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-
-                </Grid>
-                <Button>Randomize</Button>
-
-                <Grid container spacing={2}>
-                    <Timer />
-                </Grid>
-
-
-            </div>
+            {isTopicStarted && researchSession}
         </Layout>
     </div>;
 }
