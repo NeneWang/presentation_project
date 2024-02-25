@@ -14,11 +14,11 @@ const Navbar = () => {
         </Link>
         <div className="right menu">
           
-        <Link href="/presentations" className='item' >
+        <Link href="/session" className='item' >
             Presentations
           </Link>
-          <Link href="/choose-topic" className='item' >
-            Record a Session
+          <Link href="/session" className='item' >
+            Start a Session
           </Link>
           <Link href="/upload-record" className='item' >
             Upload Records*
