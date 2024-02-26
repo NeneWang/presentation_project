@@ -13,6 +13,9 @@ import {CardContent, Grid, Typography, Card} from '@mui/material';
  */
 export default function PresentationCard({record, topic}) {
 
+    console.log('Record', record);
+    console.log('Topic', topic);
+    
     const extractDateFormatted = (date) => {
         /**
          * Format as 2024-01-18
