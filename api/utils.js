@@ -125,6 +125,36 @@ export async function getProfile(id) {
     return profile;
 }
 
+export async function searchTopics({ filter = "", user_id=SAMPLE_USER_GUID } = {}) {
+    const response = await axios.get(BACKEND_API + `api_presentation/topic_search?search_query=${filter}&user_uuid=${user_id}`);
+    const topics = response.data;
+    console.log("Topics", topics)
+    return topics;
+}
+
+export async function upvoteTopic(topic_id) {
+
+    const topicData = {
+        "user_id": SAMPLE_USER_GUID,
+        "topic_id": topic_id
+    }
+
+    const response = await axios.post(BACKEND_API + `api_presentation/upvote_topic`, topicData);
+    const topic = response.data;
+    return topic;
+}
+
+export async function bookmarkTopic(topic_id) {
+    const bookmarkData = {
+        "user_id": SAMPLE_USER_GUID,
+        "topic_id": topic_id
+    }   
+    const response = await axios.post(BACKEND_API + `api_presentation/bookmark_topic`, bookmarkData);
+    const topic = response.data;
+    return topic;
+}
+    
+
 export async function getUserProfile() {
     /**
      * {
