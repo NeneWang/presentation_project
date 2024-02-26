@@ -153,6 +153,12 @@ export async function bookmarkTopic(topic_id) {
     const topic = response.data;
     return topic;
 }
+
+export async function getBookmarks(user_id=SAMPLE_USER_GUID) {
+    const response = await axios.get(BACKEND_API + `api_presentation/bookmarks/${user_id}`);
+    const bookmarks = response.data;
+    return bookmarks;
+}
     
 
 export async function getUserProfile() {
