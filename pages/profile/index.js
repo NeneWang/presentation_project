@@ -26,22 +26,19 @@ export default function HomePage({ profile, records }) {
                     //         | Duration: ${getDurationInSeconds(record.start_ch_time, record.end_res_time)??0} seconds`}
                     //     />
                     // </ListItem>
-                    <div>
-
-                        <PresentationCard
-                            record={{
-                                preparation_time: record?.preparation_time ?? 0,
-                                start_ch_time: record.start_ch_time ?? '2024-01-18T20:50:00.406577',
-                                end_res_time: record.end_res_time ?? '2024-01-18T20:50:00.406577',
-                                resource_link: record.resource_link ?? 'Youtube Link Missing',
-                            }}
-                            topic={{
-                                name: record.topic.name ?? 'No Topic',
-                                description: record.topic.description ?? 'No Description',
-                            }}
-                        />
-                        <br />
-                    </div>
+                    <PresentationCard
+                        record={{
+                            preparation_time: record?.preparation_time ?? 0,
+                            start_ch_time: record.start_ch_time ?? '2024-01-18T20:50:00.406577',
+                            end_res_time: record.end_res_time ?? '2024-01-18T20:50:00.406577',
+                            resource_link: record.resource_link ?? 'Youtube Link Missing',
+                        }}
+                        topic={{
+                            name: record.topic.name ?? 'No Topic',
+                            description: record.topic.description ?? 'No Description',
+                        }}
+                    />
+                    
 
                 ))}
             </List>

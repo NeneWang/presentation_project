@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import {CardContent, Grid, Typography, Card} from '@mui/material';
+import { CardContent, Grid, Typography, Card, Checkbox } from '@mui/material';
 
+// import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked';
+import { CheckCircle, RadioButtonUnchecked } from '@material-ui/icons';
 /**
  * 
  * <ListItem key={record.id}>
@@ -11,11 +13,11 @@ import {CardContent, Grid, Typography, Card} from '@mui/material';
     />
 </ListItem>
  */
-export default function PresentationCard({record, topic}) {
+export default function PresentationCard({ record, topic }) {
 
     console.log('Record', record);
     console.log('Topic', topic);
-    
+
     const extractDateFormatted = (date) => {
         /**
          * Format as 2024-01-18
@@ -29,6 +31,15 @@ export default function PresentationCard({record, topic}) {
         <Grid item xs={12} sm={6} md={6} lg={6}>
             <Card>
                 <CardContent>
+
+                    <ListItemIcon>
+                        {record.topic.is_completed ? <CheckCircle /> : <RadioButtonUnchecked />}
+                    </ListItemIcon>
+                    <Typography>
+                        Presentation
+                    </Typography>
+
+
                     <Typography variant="h5" component="div">
                         {topic.name}
                     </Typography>
@@ -40,17 +51,17 @@ export default function PresentationCard({record, topic}) {
                     </Typography>
 
                     <Typography>
-                        Preparation Organization: {record?.preparation_time??0} minutes
+                        Preparation Organization: {record?.preparation_time ?? 0} minutes
                     </Typography>
 
 
                     <Typography color="textSecondary">
-                        {topic.description??'No Description'}
+                        {topic.description ?? 'No Description'}
                     </Typography>
 
-                    
+
                     <Typography color="textSecondary">
-                        {record.resource_link??'Youtube Link Missing'}
+                        {record.resource_link ?? 'Youtube Link Missing'}
                     </Typography>
                 </CardContent>
             </Card>

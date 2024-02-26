@@ -5,6 +5,7 @@ import { upvoteTopic, bookmarkTopic } from '@/api/utils';
 
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { CheckCircle, RadioButtonUnchecked } from '@material-ui/icons';
 
 export default function SearchTopicCard({topic, index}) {
     /**
@@ -37,8 +38,12 @@ export default function SearchTopicCard({topic, index}) {
         <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
             <Card>
                 <CardContent>
+
                     <Typography variant="h5" component="div">
-                        {topic.name}
+                      
+                    {
+                        topic.is_completed ? <CheckCircle /> : <RadioButtonUnchecked />
+                    }  {topic.name}
                     </Typography>
                     <Typography color="textSecondary">
                         {topic.description}
