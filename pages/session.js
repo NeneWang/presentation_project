@@ -4,7 +4,7 @@ import { Grid, Card, CardContent, Typography, TextField, Button, Divider } from 
 import { useState } from 'react';
 import Timer from '@/components/Timer';
 import TopicCard from '@/components/TopicCard';
-
+import PresentationCard from '@/components/PresentationCard';
 
 const randomTopics = [
     {
@@ -44,7 +44,7 @@ const randomTopics = [
         "updated_time": "2024-01-18T01:54:47.569506"
     }
 ]
-const { randomizeOptions } = require('@/api/utils');
+const { randomizeOptions, postUserRecording } = require('@/api/utils');
 
 
 export default function HomePage() {
@@ -57,7 +57,10 @@ export default function HomePage() {
     const [submissionLink, setSubmissionLink] = useState('');
 
     const [userTopic, setUserTopic] = useState('');
-    const [isTopicStarted, setIsTopicStarted] = useState(false);
+    const [sessionState, setSessionState] = useState(0); // || 0: Choose, 1: Recording, 2: FInished.
+    const [timerNameSelected, setTimerNameSelected] = useState(25);
+
+    
 
     const handleCustomTopicSubmit = () => {
         // Add your code to handle the submitted topic here
@@ -87,7 +90,9 @@ export default function HomePage() {
 
 
         <Grid container spacing={2}>
-            <Timer />
+            <Timer 
+                setTimerName = {setTimerNameSelected}
+            />
         </Grid>
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -109,7 +114,7 @@ export default function HomePage() {
                     value={topicDescription}
                     onChange={(event) => setTopicDescription(event.target.value)} />
             </Grid>
-            <Divider/>
+            <Divider />
             <Grid item xs={12}>
                 <TextField
                     label="Submission Link (Youtube)"
@@ -120,6 +125,28 @@ export default function HomePage() {
                     value={submissionLink}
                     onChange={(event) => setSubmissionLink(event.target.value)} />
             </Grid>
+            {submissionLink &&
+                <Grid item>
+                    <Button onClick={async () => {
+
+
+                        const res = await randomizeOptions();
+                        setPromptTopics(res);
+                        setSessionState(2);
+
+                        postUserRecording({
+                            preparation_time: timerNameSelected,
+                            start_ch_time: new Date().toISOString(),
+                            end_res_time: new Date().toISOString(),
+                            resource_link: submissionLink,
+                            topic_name: topicTitle,
+                            topic_description: topicDescription,
+                            topic_tags: [],
+                            
+                        });
+                    }}>Submit</Button>
+                </Grid>}
+
         </Grid>
 
 
@@ -176,15 +203,35 @@ export default function HomePage() {
 
 
         <Button onClick={async () => {
-            setIsTopicStarted(true);
+            setSessionState(1);
         }}>Start</Button>
     </div>;
     return <div>
         <Layout>
 
-            {!isTopicStarted && chooseTopicScreen}
+            {sessionState == 0 && chooseTopicScreen}
 
-            {isTopicStarted && researchSession}
+            {sessionState == 1 && researchSession}
+            { sessionState == 2 && 
+                <div>
+                    <h3>Presentation Completed </h3>
+                    <PresentationCard 
+                        record={{
+                            resource_link: submissionLink,
+                            preparation_time: timerNameSelected,
+                            start_ch_time: new Date().toISOString(),
+
+                        }}
+
+                        topic={{
+                            name: topicTitle,
+                            description: topicDescription,
+                        }}
+                    />
+                </div>
+
+            }
+
         </Layout>
     </div>;
 }

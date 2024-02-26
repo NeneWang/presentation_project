@@ -17,10 +17,43 @@ const SAMPLE_TOPIC_ID = 'a72dd8bb-0ea0-48d7-9f55-df30b236ecdf'
  * @returns 
  */
 export async function postRecording(newRecordingData) {
+    /**
+     * {
+        "preparation_time": 0,
+        "user_id": "string",
+        "start_ch_time": "2024-02-25T19:37:52.001663",
+        "resource_link": "string",
+        "end_res_time": "2024-02-25T19:37:52.001663",
+        "topic_name": "string",
+        "topic_description": "string",
+        "topic_tags": [
+            "string"
+        ]
+        }
+     */
     const response = await axios.post(BACKEND_API + `api_presentation/record`, newRecordingData);
 
     const newRecording = response.data;
     return newRecording;
+}
+
+export async function postUserRecording(newRecordingData) {
+    /**
+ *      "preparation_time": 0,
+        "start_ch_time": "2024-02-25T19:37:52.001663",
+        "end_res_time": "2024-02-25T19:37:52.001663",
+        "resource_link": "string",
+        "topic_name": "string",
+        "topic_description": "string",
+        "topic_tags": [
+            "string"
+        ]
+        }
+     */
+
+    newRecordingData["user_id"] = SAMPLE_USER_GUID;
+    return postRecording(newRecordingData);
+
 }
 
 export async function randomizeOptions() {

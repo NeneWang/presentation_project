@@ -4,8 +4,7 @@ import { CardContent, Grid, Typography, Button, Select, MenuItem, TextField } fr
 import { postRecording } from '@/api/utils';
 
 export default function Timer({
-    topic_id,
-    user_id = ""
+    setTimerName
 }) {
     const [timerSelected, setTimerSelected] = useState(25 * 60); // 25 minutes in seconds
     const [isTimer, setIsTimer] = useState(false);
@@ -13,6 +12,7 @@ export default function Timer({
     const [isFinished, setIsFinished] = useState(false); // TODO: Implement this [1
     const [timeRemaining, setTimeRemaining] = useState(timerSelected);
     const [youtubeLink, setYoutubeLink] = useState('');
+
 
     useEffect(() => {
         let interval = null;
@@ -39,6 +39,7 @@ export default function Timer({
         console.log("handleTimeChange", event.target.value)
         setTimerSelected(event.target.value * 60); // Convert minutes to seconds
         setTimeRemaining(event.target.value * 60);
+        setTimerName(`${event.target.value}:00`)
     };
 
     const handleSubmit = async () => {
